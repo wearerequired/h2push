@@ -1,0 +1,28 @@
+{
+  "name": "wearerequired/h2push",
+  "description": "Sends Link headers to bring HTTP/2 Server Push for scripts and styles to WordPress.",
+  "type": "wordpress-plugin",
+  "homepage": "https://github.com/wearerequired/h2push",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "required",
+      "email": "info@required.ch",
+      "homepage": "https://required.com",
+      "role": "Company"
+    },
+    {
+      "name": "Dominik Schilling",
+      "email": "dominik@required.ch",
+      "role": "Developer"
+    }
+  ],
+  "keywords": [
+    "wordpress",
+    "http2",
+    "server-push"
+  ],
+  "require": {
+    "php": ">=7.0"
+  }
+}
