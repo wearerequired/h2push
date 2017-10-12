@@ -6,6 +6,10 @@ Sends Link headers to bring HTTP/2 Server Push for scripts and styles to WordPre
 
 ## Changelog
 
+### 1.1.0
+
+* Adds support for relative script and style paths.
+
 ### 1.0.0
 
-Initial release.
+* Initial release.
