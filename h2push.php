@@ -87,14 +87,16 @@ function get_push_resources() {
 		}
 
 		// Prepend a protocol.
-		if ( '//' === substr( $src, 0, 2 ) ) {
+		if ( false === strpos( $src, ':' ) && '/' !== $src[0] ) {
 			$src = ( is_ssl() ? 'https:' : 'http:' ) . $src;
 		}
 
 		// Check if it's a local resource.
-		$src_host = wp_parse_url( $src, PHP_URL_HOST );
-		if ( $home_url_host !== $src_host ) {
-			continue;
+		if ( '/' !== $src[0] ) {
+			$src_host = wp_parse_url( $src, PHP_URL_HOST );
+			if ( $home_url_host !== $src_host ) {
+				continue;
+			}
 		}
 
 		if ( ! empty( $style->ver ) ) {
@@ -130,14 +132,16 @@ function get_push_resources() {
 		}
 
 		// Prepend a protocol.
-		if ( '//' === substr( $src, 0, 2 ) ) {
+		if ( false === strpos( $src, ':' ) && '/' !== $src[0] ) {
 			$src = ( is_ssl() ? 'https:' : 'http:' ) . $src;
 		}
 
 		// Check if it's a local resource.
-		$src_host = wp_parse_url( $src, PHP_URL_HOST );
-		if ( $home_url_host !== $src_host ) {
-			continue;
+		if ( '/' !== $src[0] ) {
+			$src_host = wp_parse_url( $src, PHP_URL_HOST );
+			if ( $home_url_host !== $src_host ) {
+				continue;
+			}
 		}
 
 		if ( ! empty( $script->ver ) ) {
