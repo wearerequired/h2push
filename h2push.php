@@ -87,7 +87,7 @@ function get_push_resources() {
 		}
 
 		// Prepend a protocol.
-		if ( false === strpos( $src, ':' ) && '/' !== $src[0] ) {
+		if ( '//' === substr( $src, 0, 2 ) || ( false === strpos( $src, ':' ) && '/' !== $src[0] ) ) {
 			$src = ( is_ssl() ? 'https:' : 'http:' ) . $src;
 		}
 
@@ -132,7 +132,7 @@ function get_push_resources() {
 		}
 
 		// Prepend a protocol.
-		if ( false === strpos( $src, ':' ) && '/' !== $src[0] ) {
+		if ( '//' === substr( $src, 0, 2 ) || ( false === strpos( $src, ':' ) && '/' !== $src[0] ) ) {
 			$src = ( is_ssl() ? 'https:' : 'http:' ) . $src;
 		}
 

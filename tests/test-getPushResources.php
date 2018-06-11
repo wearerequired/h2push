@@ -101,7 +101,7 @@ class GetPushResources extends WP_UnitTestCase {
 
 	public function test_get_push_resources_style_with_schemeless_url() {
 		$scheme_less_home_url = str_replace( 'http:', '', home_url( '', 'http' ) );
-		wp_enqueue_script( 'my-style', $scheme_less_home_url . '/style.css', [], '1.0' );
+		wp_enqueue_style( 'my-style', $scheme_less_home_url . '/style.css', [], '1.0' );
 
 		$resources = H2Push\get_push_resources();
 		$this->assertNotEmpty( $resources );
