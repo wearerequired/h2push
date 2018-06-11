@@ -14,4 +14,12 @@
 
 	<exclude-pattern>*/node_modules/*</exclude-pattern>
 	<exclude-pattern>*/vendor/*</exclude-pattern>
+
+	<!-- Exclude the unit tests from select sniffs. -->
+	<rule ref="WordPress.Files.FileName.NotHyphenatedLowercase">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
+	<rule ref="PEAR.NamingConventions.ValidClassName.Invalid">
+		<exclude-pattern>/tests/*</exclude-pattern>
+	</rule>
 </ruleset>
