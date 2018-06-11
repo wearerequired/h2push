@@ -110,4 +110,37 @@ class GetPushResources extends WP_UnitTestCase {
 		$this->assertSame( '/style.css?ver=1.0', $my_style['href'] );
 		$this->assertSame( 'style', $my_style['as'] );
 	}
+
+	public function test_get_push_resources_style_with_default_version() {
+		wp_enqueue_style( 'my-style', '/style.css', [] );
+
+		$resources = H2Push\get_push_resources();
+		$this->assertNotEmpty( $resources );
+		$this->assertCount( 1, $resources );
+		$my_style = $resources[0];
+		$this->assertSame( '/style.css?ver=' . get_bloginfo( 'version' ), $my_style['href'] );
+		$this->assertSame( 'style', $my_style['as'] );
+	}
+
+	public function test_get_push_resources_style_with_no_version() {
+		wp_enqueue_style( 'my-style', '/style.css', [], null );
+
+		$resources = H2Push\get_push_resources();
+		$this->assertNotEmpty( $resources );
+		$this->assertCount( 1, $resources );
+		$my_style = $resources[0];
+		$this->assertSame( '/style.css', $my_style['href'] );
+		$this->assertSame( 'style', $my_style['as'] );
+	}
+
+	public function test_get_push_resources_script_with_no_version() {
+		wp_enqueue_script( 'my-script', '/script.js', [], null );
+
+		$resources = H2Push\get_push_resources();
+		$this->assertNotEmpty( $resources );
+		$this->assertCount( 1, $resources );
+		$my_script = $resources[0];
+		$this->assertSame( '/script.js', $my_script['href'] );
+		$this->assertSame( 'script', $my_script['as'] );
+	}
 }

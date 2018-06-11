@@ -99,10 +99,12 @@ function get_push_resources() {
 			}
 		}
 
-		if ( ! empty( $style->ver ) ) {
-			$src = add_query_arg( 'ver', $style->ver, $src );
-		} else {
-			$src = add_query_arg( 'ver', $wp_version, $src );
+		// Append the style version.
+		if ( null !== $style->ver ) {
+			$src = add_query_arg(
+				'ver', $style->ver ? $style->ver : $wp_version,
+				$src
+			);
 		}
 
 		$src = str_replace( $home_url, '', $src );
@@ -144,10 +146,12 @@ function get_push_resources() {
 			}
 		}
 
-		if ( ! empty( $script->ver ) ) {
-			$src = add_query_arg( 'ver', $script->ver, $src );
-		} else {
-			$src = add_query_arg( 'ver', $wp_version, $src );
+		// Append the script version.
+		if ( null !== $script->ver ) {
+			$src = add_query_arg(
+				'ver', $script->ver ? $script->ver : $wp_version,
+				$src
+			);
 		}
 
 		$src = str_replace( $home_url, '', $src );
