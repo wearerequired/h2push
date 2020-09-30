@@ -3,7 +3,7 @@
  * Plugin Name: HTTP/2 Server Push
  * Plugin URI:  https://github.com/wearerequired/h2push/
  * Description: Sends Link headers to bring HTTP/2 Server Push for scripts and styles to WordPress.
- * Version:     1.2.0
+ * Version:     1.3.0
  * Author:      required
  * Author URI:  https://required.com
  * License:     GPL-2.0+
@@ -32,22 +32,29 @@ namespace Required\H2Push;
  * Sends preload Link headers for script and style resources.
  *
  * @since 1.0.0
+ * @since 1.3.0 Falls back to <link> element if headers are already sent.
  */
 function add_link_headers() {
-	if ( headers_sent() ) {
-		return;
-	}
-
+	$as_header = ! headers_sent();
 	$resources = get_push_resources();
 
 	foreach ( $resources as $resource ) {
-		$header = sprintf(
-			'Link: <%s>; rel=preload; as=%s',
-			esc_url_raw( $resource['href'] ),
-			esc_attr( $resource['as'] )
-		);
-
-		header( $header, false );
+		if ( $as_header ) {
+			header(
+				sprintf(
+					'Link: <%s>; rel=preload; as=%s',
+					esc_url_raw( $resource['href'] ),
+					esc_attr( $resource['as'] )
+				),
+				false
+			);
+		} else {
+			printf(
+				'<link href="%s" rel="preload" as="%s">',
+				esc_attr( $resource['href'] ),
+				esc_attr( $resource['as'] )
+			);
+		}
 	}
 }
 add_action( 'wp_head', __NAMESPACE__ . '\add_link_headers', 2, 0 );
