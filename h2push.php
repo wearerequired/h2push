@@ -9,7 +9,7 @@
  * License:     GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  *
- * Copyright (c) 2017-2018 required (email: info@required.ch)
+ * Copyright (c) 2017-2020 required (email: info@required.ch)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2 or, at
@@ -24,8 +24,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
- *
- * @package Required\H2Push
  */
 
 namespace Required\H2Push;
@@ -73,7 +71,7 @@ function get_push_resources() {
 	$wp_styles->all_deps( $wp_styles->queue );
 	$files = $wp_styles->to_do;
 
-	foreach ( $files as $i => $handle ) {
+	foreach ( $files as $i => $handle ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		$style = $wp_styles->registered[ $handle ];
 		$src   = $style->src;
 
@@ -102,7 +100,8 @@ function get_push_resources() {
 		// Append the style version.
 		if ( null !== $style->ver ) {
 			$src = add_query_arg(
-				'ver', $style->ver ? $style->ver : $wp_version,
+				'ver',
+				$style->ver ? $style->ver : $wp_version,
 				$src
 			);
 		}
@@ -149,7 +148,8 @@ function get_push_resources() {
 		// Append the script version.
 		if ( null !== $script->ver ) {
 			$src = add_query_arg(
-				'ver', $script->ver ? $script->ver : $wp_version,
+				'ver',
+				$script->ver ? $script->ver : $wp_version,
 				$src
 			);
 		}

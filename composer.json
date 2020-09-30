@@ -1,7 +1,12 @@
 {
   "name": "wearerequired/h2push",
-  "description": "Sends Link headers to bring HTTP/2 Server Push for scripts and styles to WordPress.",
   "type": "wordpress-plugin",
+  "description": "Sends Link headers to bring HTTP/2 Server Push for scripts and styles to WordPress.",
+  "keywords": [
+    "wordpress",
+    "http2",
+    "server-push"
+  ],
   "homepage": "https://github.com/wearerequired/h2push",
   "license": "GPL-2.0-or-later",
   "authors": [
@@ -17,12 +22,17 @@
       "role": "Developer"
     }
   ],
-  "keywords": [
-    "wordpress",
-    "http2",
-    "server-push"
-  ],
   "require": {
-    "php": ">=7.0"
+    "php": ">=7.1"
+  },
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
+    "wearerequired/coding-standards": "^1.0"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "scripts": {
+    "format": "vendor/bin/phpcbf --report-summary --report-source .",
+    "lint": "vendor/bin/phpcs --report-summary --report-source ."
   }
 }
