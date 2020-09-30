@@ -7,16 +7,3 @@ Sends Link headers to bring HTTP/2 Server Push for scripts and styles to WordPre
 ![Screenshot](https://user-images.githubusercontent.com/617637/31279476-7c3dffd6-aaa9-11e7-91d8-57ec4435d067.png)
 
 ## Changelog
-
-### 1.2.0
-
-* Fix incorrect handling of dependencies with version set to `null`.
-* Fix linking of dependencies with protocol-relative URLs.
-
-### 1.1.0
-
-* Add support for relative script and style paths.
-
-### 1.0.0
-
-* Initial release.
