@@ -1,6 +1,6 @@
 # HTTP/2 Server Push
 
-[![Build Status](https://travis-ci.com/wearerequired/h2push.svg?branch=master)](https://travis-ci.com/wearerequired/h2push)
+[![PHPUnit Tests](https://github.com/wearerequired/h2push/actions/workflows/phpunit-tests.yml/badge.svg)](https://github.com/wearerequired/h2push/actions/workflows/phpunit-tests.yml)
 
 Sends Link headers to bring HTTP/2 Server Push for scripts and styles to WordPress. Falls back to `<link>` element if headers are already sent.
 
