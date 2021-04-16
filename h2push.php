@@ -206,5 +206,12 @@ function get_push_resources(): array {
 		];
 	}
 
+	/**
+	 * Filters URLs for resources to preload.
+	 *
+	 * @param array $push_resources URLs and types for resources to preload.
+	 */
+	$push_resources = apply_filters( 'h2push.push_resources', $push_resources );
+
 	return $push_resources;
 }
