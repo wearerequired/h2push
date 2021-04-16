@@ -39,7 +39,7 @@ namespace Required\H2Push;
  *
  * @since 2.0.0
  */
-function start_output_buffer() {
+function start_output_buffer(): void {
 	ob_start();
 }
 add_action( 'wp_head', __NAMESPACE__ . '\start_output_buffer', 0 );
@@ -49,7 +49,7 @@ add_action( 'wp_head', __NAMESPACE__ . '\start_output_buffer', 0 );
  *
  * @since 2.0.0
  */
-function stop_output_buffer() {
+function stop_output_buffer(): void {
 	if ( ob_get_length() ) {
 		ob_flush();
 	}
@@ -62,7 +62,7 @@ add_action( 'wp_head', __NAMESPACE__ . '\stop_output_buffer', PHP_INT_MAX );
  * @since 1.0.0
  * @since 1.3.0 Falls back to <link> element if headers are already sent.
  */
-function add_link_headers() {
+function add_link_headers(): void {
 	$as_header = ! headers_sent();
 	$resources = get_push_resources();
 
@@ -92,9 +92,9 @@ add_action( 'wp_head', __NAMESPACE__ . '\add_link_headers', 2, 0 );
  *
  * @since 1.0.0
  *
- * @return array List of script and style resources.
+ * @return array<string,mixed> List of script and style resources.
  */
-function get_push_resources() {
+function get_push_resources(): array {
 	global $wp_version;
 
 	$push_resources = [];
@@ -154,7 +154,7 @@ function get_push_resources() {
 	$wp_scripts->all_deps( $wp_scripts->queue );
 	$files = $wp_scripts->to_do;
 
-	foreach ( $files as $i => $handle ) {
+	foreach ( $files as $i => $handle ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		$script = $wp_scripts->registered[ $handle ];
 		$src    = $script->src;
 
