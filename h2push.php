@@ -31,6 +31,32 @@
 namespace Required\H2Push;
 
 /**
+ * Starts an output buffer for `wp_head`.
+ *
+ * The output buffer is necessary so that we can call `header()` during
+ * the `wp_head` action which is the only action that allows us to collect
+ * all script and style resources.
+ *
+ * @since 2.0.0
+ */
+function start_output_buffer() {
+	ob_start();
+}
+add_action( 'wp_head', __NAMESPACE__ . '\start_output_buffer', 0 );
+
+/**
+ * Stops the output buffer for `wp_head`.
+ *
+ * @since 2.0.0
+ */
+function stop_output_buffer() {
+	if ( ob_get_length() ) {
+		ob_flush();
+	}
+}
+add_action( 'wp_head', __NAMESPACE__ . '\stop_output_buffer', PHP_INT_MAX );
+
+/**
  * Sends preload Link headers for script and style resources.
  *
  * @since 1.0.0
