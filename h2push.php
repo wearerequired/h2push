@@ -64,6 +64,15 @@ add_action( 'wp_head', __NAMESPACE__ . '\stop_output_buffer', PHP_INT_MAX );
  */
 function add_link_headers(): void {
 	$as_header = ! headers_sent();
+	/**
+	 * Filters whether to use Link headers or the <link> element.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param bool $as_header Whether to use Link headers or the <link> element.
+	 */
+	$as_header = apply_filters( 'h2push.as_header', $as_header );
+
 	$resources = get_push_resources();
 
 	foreach ( $resources as $resource ) {
