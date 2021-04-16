@@ -23,16 +23,18 @@
     }
   ],
   "require": {
-    "php": ">=7.1"
+    "php": ">=7.4"
   },
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
-    "wearerequired/coding-standards": "^1.0"
+    "wearerequired/coding-standards": "^1.0",
+    "phpunit/phpunit": "^7.5"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "scripts": {
     "format": "vendor/bin/phpcbf --report-summary --report-source .",
-    "lint": "vendor/bin/phpcs --report-summary --report-source ."
+    "lint": "vendor/bin/phpcs --report-summary --report-source .",
+    "test": "vendor/bin/phpunit"
   }
 }
