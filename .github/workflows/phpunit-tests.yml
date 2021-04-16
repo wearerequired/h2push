@@ -1,0 +1,62 @@
+name: PHPUnit Tests
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  phpunit:
+    name: PHP ${{ matrix.php }} with WordPress ${{ matrix.wordpress }}${{ '1' == matrix.multisite && ' multisite' || '' }}
+    runs-on: ${{ matrix.os }}
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306/tcp
+        env:
+          MYSQL_ROOT_PASSWORD: password
+        # Set health checks to wait until mysql has started
+        options: >-
+          --health-cmd "mysqladmin ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 3
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ ubuntu-latest ]
+        php: [ '7.4' ]
+        wordpress: [ 'latest', 'nightly', '5.6' ]
+        multisite: [ '0', '1' ]
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+          tools: composer
+
+      - name: Install PHP dependencies
+        uses: ramsey/composer-install@v1
+
+      - name: Make Composer packages available globally
+        run: echo "${PWD}/vendor/bin" >> $GITHUB_PATH
+
+      - name: Install WordPress test setup
+        env:
+          WP_VERSION: ${{ matrix.wordpress }}
+          MYSQL_PORT: ${{ job.services.mysql.ports[3306] }}
+        run: bash bin/install-wp-tests.sh wordpress_test root password "127.0.0.1:$MYSQL_PORT" "$WP_VERSION"
+
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: Run tests
+        run: WP_MULTISITE=${{ matrix.multisite }} composer run-script test
