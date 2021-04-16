@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 * Requires PHP 7.4.
 * Requires WordPress 5.6.
+* Use output buffer for `wp_head` action to be able to send headers.
 
 ## [1.3.0] - 2020-09-30
 
