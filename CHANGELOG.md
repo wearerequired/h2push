@@ -14,7 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 * New `h2push.as_header` filter to define whether to use Link headers or the `<link>` element.
 * New `h2push.push_resources` filter to customize URLs for resources to push.
-* Support resources with custom `as`,`type`, `crossorigin` and `nopush` parameters.
+* Support resources with custom `as`, `type`, `crossorigin` and `nopush` parameters.
 
 ## [1.3.0] - 2020-09-30
 
