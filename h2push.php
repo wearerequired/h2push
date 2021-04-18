@@ -75,26 +75,87 @@ function add_link_headers(): void {
 
 	$resources = get_push_resources();
 
-	foreach ( $resources as $resource ) {
+	foreach ( $resources as $attributes ) {
 		if ( $as_header ) {
 			header(
-				sprintf(
-					'Link: <%s>; rel=preload; as=%s',
-					esc_url_raw( $resource['href'] ),
-					esc_attr( $resource['as'] )
-				),
+				get_link_header( $attributes ),
 				false
 			);
 		} else {
-			printf(
-				'<link href="%s" rel="preload" as="%s">',
-				esc_attr( $resource['href'] ),
-				esc_attr( $resource['as'] )
-			);
+			echo get_link_tag( $attributes ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		}
 	}
 }
 add_action( 'wp_head', __NAMESPACE__ . '\add_link_headers', 2, 0 );
+
+/**
+ * Builds the Link header.
+ *
+ * @since 2.0.0
+ *
+ * @param array<mixed,string> $attributes Resource attributes.
+ * @return string The Link header.
+ */
+function get_link_header( array $attributes ): string {
+	$parameters = 'rel="preload";';
+
+	foreach ( $attributes as $attr => $value ) {
+		if (
+			! is_scalar( $value ) ||
+			( ! \in_array( $attr, [ 'as', 'crossorigin', 'type', 'nopush' ], true ) && ! is_numeric( $attr ) )
+		) {
+			continue;
+		}
+
+		if ( ! \is_string( $attr ) ) {
+			$parameters .= " $value;";
+		} else {
+			$parameters .= " $attr=\"$value\";";
+		}
+	}
+
+	$parameters = trim( $parameters );
+	$parameters = rtrim( $parameters, ';' );
+
+	return sprintf(
+		'Link: <%s>; %s',
+		esc_url_raw( $attributes['href'] ),
+		$parameters
+	);
+}
+
+/**
+ * Builds the <link> tag.
+ *
+ * @since 2.0.0
+ *
+ * @param array<mixed,string> $attributes Resource attributes.
+ * @return string The <link> tag.
+ */
+function get_link_tag( array $attributes ): string {
+	$html = "rel='preload'";
+
+	foreach ( $attributes as $attr => $value ) {
+		if (
+			! is_scalar( $value ) ||
+			( ! \in_array( $attr, [ 'href', 'as', 'crossorigin', 'type' ], true ) && ! is_numeric( $attr ) )
+		) {
+			continue;
+		}
+
+		$value = ( 'href' === $attr ) ? esc_url( $value ) : esc_attr( $value );
+
+		if ( ! \is_string( $attr ) ) {
+			$html .= " $value";
+		} else {
+			$html .= " $attr='$value'";
+		}
+	}
+
+	$html = trim( $html );
+
+	return "<link $html />\n";
+}
 
 /**
  * Retrieves script and style resources that can be used for HTTP/2 Server Push.
