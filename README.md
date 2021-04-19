@@ -55,6 +55,8 @@ function my_theme_push_resources( array $resources ): array {
 			'type' => 'image/webp',
 		];
 	}
+
+	return $resources;
 }
 add_filter( 'h2push.push_resources', 'my_theme_push_resources' );
 ```
