@@ -39,18 +39,20 @@ By default the plugin collects all enqueued scripts and styles which are have be
  * @return array List of resources.
  */
 function my_theme_push_resources( array $resources ): array {
+	$relative_template_directory_uri = wp_parse_url( get_template_directory_uri(), PHP_URL_PATH );
+
 	// Push web font.
 	$resources[] = [
-		'href' => '/wp-content/themes/my-theme/assets/fonts/fancy.woff2?a6htkf',
+		'href' => $relative_template_directory_uri . '/assets/fonts/fancy.woff2?a6htkf',
 		'as'   => 'font',
 		'type' => 'font/woff2',
 		'crossorigin',
 	];
 
-	if ( is_front_page() ) {
+	if ( is_front_page() && ! is_paged() ) {
 		// Push hero image.
 		$resources[] = [
-			'href' => '/wp-content/themes/my-theme/assets/images/hero.webp',
+			'href' => $relative_template_directory_uri . '/assets/images/hero.webp',
 			'as'   => 'image',
 			'type' => 'image/webp',
 		];
