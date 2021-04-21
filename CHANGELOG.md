@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.0.0] - 2021-04-21
 
 ### Changed
 * Requires PHP 7.4.
@@ -37,7 +37,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 * The initial version of the plugin.
 
-[Unreleased]: https://github.com/wearerequired/h2push/compare/1.3.0...HEAD
+[Unreleased]: https://github.com/wearerequired/h2push/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/wearerequired/h2push/compare/1.3.0...2.0.0
 [1.3.0]: https://github.com/wearerequired/h2push/compare/1.2.0...1.3.0
 [1.2.0]: https://github.com/wearerequired/h2push/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/wearerequired/h2push/compare/1.0.0...1.1.0

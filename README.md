@@ -1,8 +1,9 @@
 # HTTP/2 Server Push
 
-[![PHPUnit Tests](https://github.com/wearerequired/h2push/actions/workflows/phpunit-tests.yml/badge.svg)](https://github.com/wearerequired/h2push/actions/workflows/phpunit-tests.yml)
+[![PHPUnit Tests](https://github.com/wearerequired/h2push/actions/workflows/phpunit-tests.yml/badge.svg)](https://github.com/wearerequired/h2push/actions/workflows/phpunit-tests.yml) [![Coding Standards](https://github.com/wearerequired/h2push/actions/workflows/coding-standards.yml/badge.svg)](https://github.com/wearerequired/h2push/actions/workflows/coding-standards.yml)
 
-Sends Link headers to bring HTTP/2 Server Push for scripts and styles to WordPress. Falls back to `<link>` element if headers are already sent.
+Sends Link headers to bring HTTP/2 Server Push for scripts and styles to WordPress. Falls back to `<link>` element if headers are already sent.  
+Provides filters to customize and extend the resources to push.
 
 ![Screenshot](https://user-images.githubusercontent.com/617637/31279476-7c3dffd6-aaa9-11e7-91d8-57ec4435d067.png)
 
@@ -43,7 +44,7 @@ function my_theme_push_resources( array $resources ): array {
 
 	// Push web font.
 	$resources[] = [
-		'href' => $relative_template_directory_uri . '/assets/fonts/fancy.woff2?a6htkf',
+		'href' => $relative_template_directory_uri . '/assets/fonts/fancy.woff2',
 		'as'   => 'font',
 		'type' => 'font/woff2',
 		'crossorigin',

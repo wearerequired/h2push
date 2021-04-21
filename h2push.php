@@ -3,7 +3,7 @@
  * Plugin Name: HTTP/2 Server Push
  * Plugin URI: https://github.com/wearerequired/h2push/
  * Description: Sends Link headers to bring HTTP/2 Server Push for scripts and styles to WordPress.
- * Version: 2.0.0-alpha
+ * Version: 2.0.0
  * Requires at least: 5.6
  * Requires PHP: 7.4
  * Author: required
