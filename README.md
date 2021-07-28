@@ -63,3 +63,21 @@ function my_theme_push_resources( array $resources ): array {
 }
 add_filter( 'h2push.push_resources', 'my_theme_push_resources' );
 ```
+
+### `h2push.is_allowed_push_host`
+
+By default the plugin only sends push requests for local resources where the asset URL matches the home URL. To change this behavior you can use the `h2push.is_allowed_push_host` filter. Example:
+
+```php
+/**
+ * Allow resources from example.org to be pushed/preloaded too.
+ *
+ * @param bool   $is_allowed Whether the host should be allowed. Default true for local resources.
+ * @param string $host       The host name of the resource.
+ * @return bool Whether the host should be allowed.
+ */
+function my_theme_is_allowed_push_host( $is_allowed, $host ) {
+	return $is_allowed || 'example.org' === $host;
+}
+add_filter( 'h2push.is_allowed_push_host', 'my_theme_is_allowed_push_host' );
+```

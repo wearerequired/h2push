@@ -191,4 +191,34 @@ class GetPushResources extends WP_UnitTestCase {
 		$this->assertSame( '/script.js', $my_script['href'] );
 		$this->assertSame( 'script', $my_script['as'] );
 	}
+
+	/**
+	 * Test that external script URLs are not included.
+	 */
+	public function test_get_push_resources_script_with_external_file() {
+		wp_enqueue_script( 'my-script', 'https://example.com/script.js', [], null );
+
+		$resources = H2Push\get_push_resources();
+		$this->assertCount( 0, $resources );
+	}
+
+	/**
+	 * Test that external script URLs from an allowed host are included.
+	 */
+	public function test_get_push_resources_script_with_external_file_from_allowed_host() {
+		wp_enqueue_script( 'my-script', 'https://example.com/script.js', [], null );
+
+		$filter = static function( $allowed, $host ) {
+			return $allowed || 'example.com' === $host;
+		};
+
+		add_filter( 'h2push.is_allowed_push_host', $filter, 10, 2 );
+		$resources = H2Push\get_push_resources();
+		remove_filter( 'h2push.is_allowed_push_host', $filter );
+
+		$this->assertCount( 1, $resources );
+		$my_script = $resources[0];
+		$this->assertSame( 'https://example.com/script.js', $my_script['href'] );
+		$this->assertSame( 'script', $my_script['as'] );
+	}
 }

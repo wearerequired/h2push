@@ -196,8 +196,10 @@ function get_push_resources(): array {
 
 		// Check if it's a local resource.
 		if ( '/' !== $src[0] ) {
-			$src_host = wp_parse_url( $src, PHP_URL_HOST );
-			if ( $home_url_host !== $src_host ) {
+			$src_host        = wp_parse_url( $src, PHP_URL_HOST );
+			$is_local        = $home_url_host === $src_host;
+			$is_allowed_host = apply_filters( 'h2push.is_allowed_push_host', $is_local, $src_host );
+			if ( ! $is_allowed_host ) {
 				continue;
 			}
 		}
@@ -244,8 +246,10 @@ function get_push_resources(): array {
 
 		// Check if it's a local resource.
 		if ( '/' !== $src[0] ) {
-			$src_host = wp_parse_url( $src, PHP_URL_HOST );
-			if ( $home_url_host !== $src_host ) {
+			$src_host        = wp_parse_url( $src, PHP_URL_HOST );
+			$is_local        = $home_url_host === $src_host;
+			$is_allowed_host = apply_filters( 'h2push.is_allowed_push_host', $is_local, $src_host );
+			if ( ! $is_allowed_host ) {
 				continue;
 			}
 		}
