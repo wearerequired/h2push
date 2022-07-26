@@ -51,7 +51,7 @@ add_action( 'wp_head', __NAMESPACE__ . '\start_output_buffer', 0 );
  */
 function stop_output_buffer(): void {
 	if ( ob_get_length() ) {
-		ob_flush();
+		echo ob_get_clean(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }
 add_action( 'wp_head', __NAMESPACE__ . '\stop_output_buffer', PHP_INT_MAX );
