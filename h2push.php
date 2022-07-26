@@ -40,6 +40,10 @@ namespace Required\H2Push;
  * @since 2.0.0
  */
 function start_output_buffer(): void {
+	// Exclude rest API requests.
+	if ( REST_REQUEST )	{
+		return;
+	}
 	ob_start();
 }
 add_action( 'wp_head', __NAMESPACE__ . '\start_output_buffer', 0 );
@@ -50,6 +54,11 @@ add_action( 'wp_head', __NAMESPACE__ . '\start_output_buffer', 0 );
  * @since 2.0.0
  */
 function stop_output_buffer(): void {
+	// Exclude rest API requests.
+	if ( REST_REQUEST )	{
+		return;
+	}
+
 	if ( ob_get_length() ) {
 		ob_flush();
 	}
@@ -196,10 +205,8 @@ function get_push_resources(): array {
 
 		// Check if it's a local resource.
 		if ( '/' !== $src[0] ) {
-			$src_host        = wp_parse_url( $src, PHP_URL_HOST );
-			$is_local        = $home_url_host === $src_host;
-			$is_allowed_host = apply_filters( 'h2push.is_allowed_push_host', $is_local, $src_host );
-			if ( ! $is_allowed_host ) {
+			$src_host = wp_parse_url( $src, PHP_URL_HOST );
+			if ( $home_url_host !== $src_host ) {
 				continue;
 			}
 		}
@@ -246,10 +253,8 @@ function get_push_resources(): array {
 
 		// Check if it's a local resource.
 		if ( '/' !== $src[0] ) {
-			$src_host        = wp_parse_url( $src, PHP_URL_HOST );
-			$is_local        = $home_url_host === $src_host;
-			$is_allowed_host = apply_filters( 'h2push.is_allowed_push_host', $is_local, $src_host );
-			if ( ! $is_allowed_host ) {
+			$src_host = wp_parse_url( $src, PHP_URL_HOST );
+			if ( $home_url_host !== $src_host ) {
 				continue;
 			}
 		}

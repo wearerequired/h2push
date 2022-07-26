@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+* Do not modify header for REST API requests.
+
 ### Added
 * New `h2push.is_allowed_push_host` filter to allow external files to be preloaded.
 
