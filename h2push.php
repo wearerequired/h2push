@@ -223,7 +223,7 @@ function get_push_resources(): array {
 
 		$src = str_replace( $home_url, '', $src );
 
-		$push_resources[] = [
+		$push_resources[ 'style.' . $handle ] = [
 			'href' => $src,
 			'as'   => 'style',
 		];
@@ -273,7 +273,7 @@ function get_push_resources(): array {
 
 		$src = str_replace( $home_url, '', $src );
 
-		$push_resources[] = [
+		$push_resources[ 'script.' . $handle ] = [
 			'href' => $src,
 			'as'   => 'script',
 		];
