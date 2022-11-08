@@ -97,12 +97,16 @@ add_action( 'wp_head', __NAMESPACE__ . '\add_link_headers', 2, 0 );
  * @return string The Link header.
  */
 function get_link_header( array $attributes ): string {
-	$parameters = 'rel="preload";';
+	$parameters = '';
+
+	if ( ! isset( $attributes['rel'] ) ) {
+		$attributes = [ 'rel' => 'preload' ] + $attributes;
+	}
 
 	foreach ( $attributes as $attr => $value ) {
 		if (
 			! is_scalar( $value ) ||
-			( ! \in_array( $attr, [ 'as', 'crossorigin', 'type', 'nopush' ], true ) && ! is_numeric( $attr ) )
+			( ! \in_array( $attr, [ 'rel', 'as', 'crossorigin', 'type', 'nopush' ], true ) && ! is_numeric( $attr ) )
 		) {
 			continue;
 		}
@@ -133,12 +137,16 @@ function get_link_header( array $attributes ): string {
  * @return string The <link> tag.
  */
 function get_link_tag( array $attributes ): string {
-	$html = "rel='preload'";
+	$html = '';
+
+	if ( ! isset( $attributes['rel'] ) ) {
+		$attributes = [ 'rel' => 'preload' ] + $attributes;
+	}
 
 	foreach ( $attributes as $attr => $value ) {
 		if (
 			! is_scalar( $value ) ||
-			( ! \in_array( $attr, [ 'href', 'as', 'crossorigin', 'type' ], true ) && ! is_numeric( $attr ) )
+			( ! \in_array( $attr, [ 'rel', 'href', 'as', 'crossorigin', 'type' ], true ) && ! is_numeric( $attr ) )
 		) {
 			continue;
 		}
