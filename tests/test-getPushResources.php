@@ -87,7 +87,7 @@ class GetPushResources extends WP_UnitTestCase {
 		$resources = H2Push\get_push_resources();
 		$this->assertNotEmpty( $resources );
 		$this->assertCount( 1, $resources );
-		$my_style = $resources[0];
+		$my_style = $resources['style.my-style'];
 		$this->assertSame( '/style.css?ver=1.0', $my_style['href'] );
 		$this->assertSame( 'style', $my_style['as'] );
 	}
@@ -101,7 +101,7 @@ class GetPushResources extends WP_UnitTestCase {
 		$resources = H2Push\get_push_resources();
 		$this->assertNotEmpty( $resources );
 		$this->assertCount( 1, $resources );
-		$my_script = $resources[0];
+		$my_script = $resources['script.my-script'];
 		$this->assertSame( '/script.js?ver=1.0', $my_script['href'] );
 		$this->assertSame( 'script', $my_script['as'] );
 	}
@@ -115,7 +115,7 @@ class GetPushResources extends WP_UnitTestCase {
 		$resources = H2Push\get_push_resources();
 		$this->assertNotEmpty( $resources );
 		$this->assertCount( 1, $resources );
-		$my_style = $resources[0];
+		$my_style = $resources['style.my-style'];
 		$this->assertSame( '/style.css?ver=1.0', $my_style['href'] );
 		$this->assertSame( 'style', $my_style['as'] );
 	}
@@ -130,7 +130,7 @@ class GetPushResources extends WP_UnitTestCase {
 		$resources = H2Push\get_push_resources();
 		$this->assertNotEmpty( $resources );
 		$this->assertCount( 1, $resources );
-		$my_script = $resources[0];
+		$my_script = $resources['script.my-script'];
 		$this->assertSame( '/script.js?ver=1.0', $my_script['href'] );
 		$this->assertSame( 'script', $my_script['as'] );
 	}
@@ -145,7 +145,7 @@ class GetPushResources extends WP_UnitTestCase {
 		$resources = H2Push\get_push_resources();
 		$this->assertNotEmpty( $resources );
 		$this->assertCount( 1, $resources );
-		$my_style = $resources[0];
+		$my_style = $resources['style.my-style'];
 		$this->assertSame( '/style.css?ver=1.0', $my_style['href'] );
 		$this->assertSame( 'style', $my_style['as'] );
 	}
@@ -159,7 +159,7 @@ class GetPushResources extends WP_UnitTestCase {
 		$resources = H2Push\get_push_resources();
 		$this->assertNotEmpty( $resources );
 		$this->assertCount( 1, $resources );
-		$my_style = $resources[0];
+		$my_style = $resources['style.my-style'];
 		$this->assertSame( '/style.css?ver=' . get_bloginfo( 'version' ), $my_style['href'] );
 		$this->assertSame( 'style', $my_style['as'] );
 	}
@@ -173,7 +173,7 @@ class GetPushResources extends WP_UnitTestCase {
 		$resources = H2Push\get_push_resources();
 		$this->assertNotEmpty( $resources );
 		$this->assertCount( 1, $resources );
-		$my_style = $resources[0];
+		$my_style = $resources['style.my-style'];
 		$this->assertSame( '/style.css', $my_style['href'] );
 		$this->assertSame( 'style', $my_style['as'] );
 	}
@@ -187,7 +187,7 @@ class GetPushResources extends WP_UnitTestCase {
 		$resources = H2Push\get_push_resources();
 		$this->assertNotEmpty( $resources );
 		$this->assertCount( 1, $resources );
-		$my_script = $resources[0];
+		$my_script = $resources['script.my-script'];
 		$this->assertSame( '/script.js', $my_script['href'] );
 		$this->assertSame( 'script', $my_script['as'] );
 	}
@@ -217,7 +217,7 @@ class GetPushResources extends WP_UnitTestCase {
 		remove_filter( 'h2push.is_allowed_push_host', $filter );
 
 		$this->assertCount( 1, $resources );
-		$my_script = $resources[0];
+		$my_script = $resources['script.my-script'];
 		$this->assertSame( 'https://example.com/script.js', $my_script['href'] );
 		$this->assertSame( 'script', $my_script['as'] );
 	}
