@@ -11,7 +11,9 @@ Provides filters to customize and extend the resources to push.
 
 Install the latest version with
 
-`composer require wearerequired/h2push`
+```sh
+composer require wearerequired/h2push
+```
 
 The plugin requires at least PHP 7.4 and WordPress 5.6.
 
