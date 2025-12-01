@@ -30,6 +30,8 @@
 
 namespace Required\H2Push;
 
+use ReflectionClass;
+
 /**
  * Starts an output buffer for `wp_head`.
  *
@@ -145,7 +147,7 @@ function get_link_tag( array $attributes ): string {
 
 	foreach ( $attributes as $attr => $value ) {
 		if (
-			! is_scalar( $value ) ||
+			! \is_scalar( $value ) ||
 			( ! \in_array( $attr, [ 'rel', 'href', 'as', 'crossorigin', 'type' ], true ) && ! is_numeric( $attr ) )
 		) {
 			continue;
@@ -286,6 +288,48 @@ function get_push_resources(): array {
 			'href' => $src,
 			'as'   => 'script',
 		];
+
+		// Script modules.
+		if ( \function_exists( 'wp_script_modules' ) ) {
+			$modules = wp_script_modules();
+
+			$reflector = new ReflectionClass( $modules );
+
+			$get_marked_for_enqueue = $reflector->getMethod( 'get_marked_for_enqueue' );
+			( \PHP_VERSION_ID < 80100 ) && $get_marked_for_enqueue->setAccessible( true );
+			$get_src = $reflector->getMethod( 'get_src' );
+			( \PHP_VERSION_ID < 80100 ) && $get_src->setAccessible( true );
+
+			$enqueued = $get_marked_for_enqueue->invoke( $modules );
+
+			foreach ( $enqueued as $id => $module ) {
+				$src = $get_src->invoke( $modules, $id );
+
+				if ( empty( $src ) ) {
+					continue;
+				}
+
+				// Check if it's a local resource.
+				if ( '/' !== $src[0] ) {
+					$src_host        = wp_parse_url( $src, PHP_URL_HOST );
+					$is_local        = $home_url_host === $src_host;
+					$is_allowed_host = apply_filters( 'h2push.is_allowed_push_host', $is_local, $src_host );
+					if ( ! $is_allowed_host ) {
+						continue;
+					}
+				}
+
+				$src = str_replace( $home_url, '', $src );
+
+				$push_resources[ 'script_module.' . $id ] = [
+					'href' => $src,
+					'rel'  => 'modulepreload',
+				];
+			}
+
+			( \PHP_VERSION_ID < 80100 ) && $get_marked_for_enqueue->setAccessible( false );
+			( \PHP_VERSION_ID < 80100 ) && $get_src->setAccessible( false );
+		}
 	}
 
 	/**
