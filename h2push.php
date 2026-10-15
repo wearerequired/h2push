@@ -105,7 +105,7 @@ function get_link_header( array $attributes ): string {
 
 	foreach ( $attributes as $attr => $value ) {
 		if (
-			! is_scalar( $value ) ||
+			! \is_scalar( $value ) ||
 			( ! \in_array( $attr, [ 'rel', 'as', 'crossorigin', 'type', 'nopush' ], true ) && ! is_numeric( $attr ) )
 		) {
 			continue;
@@ -121,7 +121,7 @@ function get_link_header( array $attributes ): string {
 	$parameters = trim( $parameters );
 	$parameters = rtrim( $parameters, ';' );
 
-	return sprintf(
+	return \sprintf(
 		'Link: <%s>; %s',
 		esc_url_raw( $attributes['href'] ),
 		$parameters
@@ -145,7 +145,7 @@ function get_link_tag( array $attributes ): string {
 
 	foreach ( $attributes as $attr => $value ) {
 		if (
-			! is_scalar( $value ) ||
+			! \is_scalar( $value ) ||
 			( ! \in_array( $attr, [ 'rel', 'href', 'as', 'crossorigin', 'type' ], true ) && ! is_numeric( $attr ) )
 		) {
 			continue;
@@ -166,6 +166,30 @@ function get_link_tag( array $attributes ): string {
 }
 
 /**
+ * Resolves all queued handles including their dependencies.
+ *
+ * `WP_Dependencies::all_deps()` stores its result in the shared `to_do`
+ * property. Leaving it populated makes any later `do_items()` call print
+ * every queued item, including footer scripts, at that point. The previous
+ * state is therefore restored after reading.
+ *
+ * @since 2.2.2
+ *
+ * @param \WP_Dependencies $dependencies Scripts or styles registry.
+ * @return string[] Handles in print order.
+ */
+function get_queued_handles( \WP_Dependencies $dependencies ): array {
+	$to_do = $dependencies->to_do;
+
+	$dependencies->all_deps( $dependencies->queue );
+	$handles = $dependencies->to_do;
+
+	$dependencies->to_do = $to_do;
+
+	return $handles;
+}
+
+/**
  * Retrieves script and style resources that can be used for HTTP/2 Server Push.
  *
  * @since 1.0.0
@@ -181,8 +205,7 @@ function get_push_resources(): array {
 
 	// Stylesheets.
 	$wp_styles = wp_styles();
-	$wp_styles->all_deps( $wp_styles->queue );
-	$files = $wp_styles->to_do;
+	$files     = get_queued_handles( $wp_styles );
 
 	foreach ( $files as $i => $handle ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		$style = $wp_styles->registered[ $handle ];
@@ -240,8 +263,7 @@ function get_push_resources(): array {
 	}
 
 	$wp_scripts = wp_scripts();
-	$wp_scripts->all_deps( $wp_scripts->queue );
-	$files = $wp_scripts->to_do;
+	$files      = get_queued_handles( $wp_scripts );
 
 	foreach ( $files as $i => $handle ) { // phpcs:ignore VariableAnalysis.CodeAnalysis.VariableAnalysis.UnusedVariable
 		$script = $wp_scripts->registered[ $handle ];

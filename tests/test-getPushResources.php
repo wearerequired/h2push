@@ -221,4 +221,34 @@ class GetPushResources extends WP_UnitTestCase {
 		$this->assertSame( 'https://example.com/script.js', $my_script['href'] );
 		$this->assertSame( 'script', $my_script['as'] );
 	}
+
+	/**
+	 * Test that collecting resources does not leave handles in the print queue.
+	 */
+	public function test_get_push_resources_does_not_leave_handles_in_to_do() {
+		wp_enqueue_script( 'my-script', home_url( '/script.js' ), [], '1.0' );
+		wp_enqueue_style( 'my-style', home_url( '/style.css' ), [], '1.0' );
+
+		H2Push\get_push_resources();
+
+		$this->assertSame( [], wp_scripts()->to_do );
+		$this->assertSame( [], wp_styles()->to_do );
+	}
+
+	/**
+	 * Test that footer scripts are not printed by a later partial do_items() call.
+	 */
+	public function test_get_push_resources_keeps_footer_scripts_in_footer() {
+		wp_enqueue_script( 'head-script', home_url( '/head.js' ), [], '1.0' );
+		wp_enqueue_script( 'footer-script', home_url( '/footer.js' ), [], '1.0', true );
+
+		H2Push\get_push_resources();
+
+		ob_start();
+		wp_scripts()->do_items( [ 'head-script' ] );
+		$output = ob_get_clean();
+
+		$this->assertStringContainsString( 'head.js', $output );
+		$this->assertStringNotContainsString( 'footer.js', $output );
+	}
 }
