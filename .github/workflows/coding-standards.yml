@@ -15,6 +15,7 @@ jobs:
   check:
     name: Set up and run linters
     runs-on: ubuntu-latest
+    timeout-minutes: 15
 
     steps:
       - name: Check out Git repository (push)
