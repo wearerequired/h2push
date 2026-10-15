@@ -105,7 +105,7 @@ function get_link_header( array $attributes ): string {
 
 	foreach ( $attributes as $attr => $value ) {
 		if (
-			! is_scalar( $value ) ||
+			! \is_scalar( $value ) ||
 			( ! \in_array( $attr, [ 'rel', 'as', 'crossorigin', 'type', 'nopush' ], true ) && ! is_numeric( $attr ) )
 		) {
 			continue;
@@ -121,7 +121,7 @@ function get_link_header( array $attributes ): string {
 	$parameters = trim( $parameters );
 	$parameters = rtrim( $parameters, ';' );
 
-	return sprintf(
+	return \sprintf(
 		'Link: <%s>; %s',
 		esc_url_raw( $attributes['href'] ),
 		$parameters
@@ -145,7 +145,7 @@ function get_link_tag( array $attributes ): string {
 
 	foreach ( $attributes as $attr => $value ) {
 		if (
-			! is_scalar( $value ) ||
+			! \is_scalar( $value ) ||
 			( ! \in_array( $attr, [ 'rel', 'href', 'as', 'crossorigin', 'type' ], true ) && ! is_numeric( $attr ) )
 		) {
 			continue;

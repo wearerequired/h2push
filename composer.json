@@ -28,7 +28,7 @@
   "require-dev": {
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7",
     "phpunit/phpunit": "^7.5",
-    "wearerequired/coding-standards": "^3.0",
+    "wearerequired/coding-standards": "^7.0",
     "yoast/phpunit-polyfills": "^1.0"
   },
   "extra": {
@@ -46,6 +46,13 @@
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "platform": {
+    },
+    "audit": {
+      "ignore": {
+        "PKSA-z3gr-8qht-p93v": "Only affects PHPT tests with code coverage, which are not used here."
+      }
     }
   }
 }
